@@ -62,6 +62,19 @@ struct Store {
       modelName,
       withExtension: "momd")!
   }
+
+  func saveContext(managedObjectContext managedObjectContext: NSManagedObjectContext) {
+    guard managedObjectContext.hasChanges else {
+      return
+    }
+
+    do {
+      try managedObjectContext.save()
+    } catch {
+      print(error)
+    }
+
+  }
 }
 
 //: ## Usage
