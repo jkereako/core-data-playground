@@ -26,7 +26,7 @@ struct PersistentStack {
           URL: aStoreURL,
           options: options)
     } catch {
-      print("Error!")
+      print(error)
     }
   }
 }
