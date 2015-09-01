@@ -2,7 +2,7 @@ import CoreData
 
 //: ## Persistent stack
 //: This is a generic `struct` which can be used in any project.
-final class PersistentStack {
+struct PersistentStack {
   let modelURL: NSURL
   let storeURL: NSURL
   let managedObjectContext: NSManagedObjectContext
@@ -34,11 +34,9 @@ final class PersistentStack {
 //: ## Store
 //: The purpose of this `struct` is to define the application specific
 //: properties of the core data stack. In particular, the name of the model.
-class Store {
-  static let modelName = "MyModel"
-  let modelURL = NSBundle.mainBundle().URLForResource(
-    Store.modelName,
-    withExtension: "momd")
+struct Store {
+  let modelName: String
+  let modelURL: NSURL
   // Computed property
   var storeURL: NSURL {
     let url: NSURL?
@@ -50,16 +48,23 @@ class Store {
         appropriateForURL: nil,
         create: true)
 
-      url = documentsDirectory.URLByAppendingPathComponent("\(Store.modelName).sqlite")
+      url = documentsDirectory.URLByAppendingPathComponent("\(modelName).sqlite")
     } catch {
       url = nil
     }
 
     return url!
   }
+
+  init(modelName aModelName: String ) {
+    modelName = aModelName
+    modelURL = NSBundle.mainBundle().URLForResource(
+      modelName,
+      withExtension: "momd")!
+  }
 }
 
 //: ## Usage
 //: Below is how to use the 2 `structs` above. The code is commented out because it will throw an error.
-
-// let stack = PersistentStack(modelURL: Store.modelURL!, storeURL: Store.storeURL())
+//let store = Store(modelName: "MyModel")
+//let stack = PersistentStack(modelURL: store.modelURL, storeURL: store.storeURL)
